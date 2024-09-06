@@ -4,8 +4,6 @@ on:
   pull_request:
       branches:
       - main
-      paths:
-      - 'starter/frontend/**'
 env:
   NODE_VERSION: '20.x'
 
@@ -29,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Run lint
-        run: cd starter/frontend && npm run lint -- --fix
+        run: cd starter/frontend && npm run lint
 
 
 
@@ -44,21 +42,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{env.NODE_VERSION}}
+          cache: 'npm'
+          cache-dependency-path: starter/frontend/package-lock.json
 
       - name: Install Dependencies
-        run: |
-          cd starter/frontend
-          npm ci
-
-      - name: Run Tests
-        run: |
-          cd starter/frontend
-          npm test
-
-      - name: Simulate running tests
-        run: |
-          cd starter/frontend
-          CI=true npm test
+        working-directory: starter/frontend
+        run: npm ci
+    
+      - name: Run tests
+        run: cd starter/frontend && npm run test
 
   build:
     runs-on: ubuntu-latest
