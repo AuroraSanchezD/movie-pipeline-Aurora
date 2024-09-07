@@ -53,6 +53,10 @@ jobs:
     needs: [lint, test]
 
     steps: 
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
@@ -68,7 +72,7 @@ jobs:
         IMAGE_TAG: latest
         REPO_NAME: frontend
       run: |
-        docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag 505370451601.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG .
+        docker build --file Dockerfile --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag 505370451601.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG .
         docker push 505370451601.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG
 
     
