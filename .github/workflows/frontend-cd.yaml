@@ -71,6 +71,7 @@ jobs:
       run: ls -la starter/frontend
     
     - name: Build and Push Docker Image
+      working-directory: starter/frontend
       env:
         IMAGE_TAG: latest
         REPO_NAME: frontend
