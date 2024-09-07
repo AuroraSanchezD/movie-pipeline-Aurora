@@ -74,7 +74,7 @@ jobs:
       env:
         IMAGE_TAG: latest
         REPO_NAME: backend
-        ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com/
+        ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
       run: |
         docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
         docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
