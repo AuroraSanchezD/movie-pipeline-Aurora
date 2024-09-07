@@ -64,7 +64,6 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
     
     - name: Build and Push Docker Image
-      working-directory: starter/frontend
       env:
         IMAGE_TAG: latest
         REPO_NAME: frontend
