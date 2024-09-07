@@ -72,7 +72,7 @@ jobs:
     - name: Build and Push Docker Image
       working-directory: starter/backend
       env:
-        IMAGE_TAG: latest
+        IMAGE_TAG: ${{ github.sha }}
         REPO_NAME: backend
         ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
       run: |
@@ -87,7 +87,7 @@ jobs:
     - name: Deploying Docker image to EKS
       working-directory: starter/backend/k8s
       env:
-        IMAGE_TAG: latest
+        IMAGE_TAG: ${{ github.sha }}
         REPO_NAME: backend
       run: |
           kustomize edit set image backend= $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
