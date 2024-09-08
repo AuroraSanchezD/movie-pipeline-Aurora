@@ -70,26 +70,26 @@ jobs:
     - name: Logging into ECR
       uses: aws-actions/amazon-ecr-login@v2
   
-    # - name: Build and Push Docker Image
-    #   working-directory: starter/backend
-    #   env:
-    #     IMAGE_TAG: ${{ github.sha }}
-    #     REPO_NAME: backend
-    #     ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
-    #   run: |
-    #     docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
-    #     docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
+    - name: Build and Push Docker Image
+      working-directory: starter/backend
+      env:
+        IMAGE_TAG: ${{ github.sha }}
+        REPO_NAME: backend
+        ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
+      run: |
+        docker build docker build -t backend:$IMAGE_TAG . --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
+        docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
 
-    # - name: Configuring Kubeconfig
-    #   run:
-    #    aws eks update-kubeconfig --name cluster --region us-east-1
+    - name: Configuring Kubeconfig
+      run:
+       aws eks update-kubeconfig --name cluster --region us-east-1
 
 
-    # - name: Deploying Docker image to EKS
-    #   working-directory: starter/backend/k8s
-    #   env:
-    #     IMAGE_TAG: ${{ github.sha }}
-    #     REPO_NAME: backend
-    #   run: |
-    #       kustomize edit set image backend= $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
-    #       kustomize build | kubectl apply -f -
+    - name: Deploying Docker image to EKS
+      working-directory: starter/backend/k8s
+      env:
+        IMAGE_TAG: ${{ github.sha }}
+        REPO_NAME: backend
+      run: |
+          kustomize edit set image backend= $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
+          kustomize build | kubectl apply -f -
