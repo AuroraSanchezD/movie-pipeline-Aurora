@@ -67,28 +67,28 @@ jobs:
     - name: Logging into ECR
       uses: aws-actions/amazon-ecr-login@v2
   
-    # - name: Build and Push Docker Image
-    #   working-directory: starter/frontend
-    #   env:
-    #     IMAGE_TAG: ${{ github.sha }}
-    #     REPO_NAME: frontend
-    #     ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
-    #   run: |
-    #     docker build --build-arg=REACT_APP_MOVIE_API_URL=http://a1867271272af40eebc906f4774a851c-1823084446.us-east-1.elb.amazonaws.com --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
-    #     docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
+    - name: Build and Push Docker Image
+      working-directory: starter/frontend
+      env:
+        IMAGE_TAG: ${{ github.sha }}
+        REPO_NAME: frontend
+        ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
+      run: |
+        docker build --build-arg=REACT_APP_MOVIE_API_URL=http://a1867271272af40eebc906f4774a851c-1823084446.us-east-1.elb.amazonaws.com --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
+        docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
     
-    # - name: Configuring Kubeconfig
-    #   run:
-    #    aws eks update-kubeconfig --name cluster --region us-east-1
+    - name: Configuring Kubeconfig
+      run:
+       aws eks update-kubeconfig --name cluster --region us-east-1
 
 
-    # - name: Update kimage
-    #   run: |
-    #     cd ./starter/frontend/k8s && kustomize edit set image frontend=505370451601.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
+    - name: Update kimage
+      run: |
+        cd ./starter/frontend/k8s && kustomize edit set image frontend=505370451601.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
 
-    # - name: Apply kubectl
-    #   run: |
-    #     cd starter/frontend/k8s && kustomize build | kubectl apply -f -
-    #     kubectl get svc -A
+    - name: Apply kubectl
+      run: |
+        cd starter/frontend/k8s && kustomize build | kubectl apply -f -
+        kubectl get svc -A
 
     
