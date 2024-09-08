@@ -71,11 +71,10 @@ jobs:
       working-directory: starter/frontend
       env:
         IMAGE_TAG: ${{ github.sha }}
-        REPO_NAME: frontend
-        ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
       run: |
-        docker build --build-arg=REACT_APP_MOVIE_API_URL=http://a1867271272af40eebc906f4774a851c-1823084446.us-east-1.elb.amazonaws.com --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
-        docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
+        docker build --build-arg=REACT_APP_MOVIE_API_URL=http:/ad32ea29140aa4140a9d715936d25a3f-455093354.us-east-1.elb.amazonaws.com --tag=frontend:$IMAGE_TAG .
+        docker tag frontend:$IMAGE_TAG 505370451601.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
+        docker push 505370451601.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
     
     - name: Configuring Kubeconfig
       run:
