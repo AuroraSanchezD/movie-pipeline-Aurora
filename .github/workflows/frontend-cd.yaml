@@ -83,12 +83,11 @@ jobs:
 
 
     - name: Update kimage
-        run: |
-          cd ./starter/frontend/k8s && kustomize edit set image frontend=505370451601.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
+      run: |
+        cd ./starter/frontend/k8s && kustomize edit set image frontend=505370451601.dkr.ecr.us-east-1.amazonaws.com/frontend:$IMAGE_TAG
 
     - name: Apply kubectl
       run: |
-
         cd starter/frontend/k8s && kustomize build | kubectl apply -f -
         kubectl get svc -A
 
