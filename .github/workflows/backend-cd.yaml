@@ -71,14 +71,14 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
   
     - name: Build and Push Docker Image
+      working-directory: starter/backend
       env:
         IMAGE_TAG: ${{ github.sha }}
         REPO_NAME: backend
         ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
       run: |
-        cd starter/backend && docker build -t ${{ env.REPO_NAME }}:${{ env.IMAGE_TAG }} .
-        docker tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
-        docker push ${{ env.ECR_REPO_URL }}/${{ env.REPO_NAME }}:${{ env.IMAGE_TAG }}
+        docker build --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
+        docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
 
     - name: Configuring Kubeconfig
       run:
