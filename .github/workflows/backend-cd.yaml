@@ -77,7 +77,7 @@ jobs:
         REPO_NAME: backend
         ECR_REPO_URL: 505370451601.dkr.ecr.us-east-1.amazonaws.com
       run: |
-        docker build docker build -t backend:$IMAGE_TAG . --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
+        docker build -t backend:$IMAGE_TAG . --tag $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG .
         docker push $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
 
     - name: Configuring Kubeconfig
