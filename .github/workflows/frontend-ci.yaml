@@ -19,8 +19,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{env.NODE_VERSION}}
-          cache: 'npm'
-          cache-dependency-path: starter/frontend/package-lock.json
+
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os}}-npm-${{ hashFiles('starter/frontend/package-lock.json')}}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Install Dependencies
         working-directory: starter/frontend
@@ -42,8 +48,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{env.NODE_VERSION}}
-          cache: 'npm'
-          cache-dependency-path: starter/frontend/package-lock.json
+
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os}}-npm-${{ hashFiles('starter/frontend/package-lock.json')}}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Install Dependencies
         working-directory: starter/frontend
