@@ -85,11 +85,10 @@ jobs:
        aws eks update-kubeconfig --name cluster --region us-east-1
 
 
-    - name: Deploying Docker image to EKS
-      working-directory: starter/backend/k8s
-      env:
-        IMAGE_TAG: ${{ github.sha }}
-        REPO_NAME: backend
+    - name: Updating Kubernetes image
       run: |
-          kustomize edit set image backend= $ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
-          kustomize build | kubectl apply -f -
+        cd ./starter/backend/k8s && kustomize edit set image backend=$ECR_REPO_URL/$REPO_NAME:$IMAGE_TAG
+    
+    - name: Apply kubectl
+      run: |
+        cd ./starter/backend/k8s && kustomize build | kubectl apply -f -
